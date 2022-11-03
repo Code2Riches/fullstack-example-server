@@ -6,6 +6,7 @@ var logger = require('morgan');
 const cors = require("cors");
 require("dotenv").config();
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var blogsRouter = require('./routes/blogs');
@@ -15,6 +16,7 @@ mongoConnect();
 
 var app = express();
 
+// CORS Middleware
 app.use(cors());
 app.options("*", cors());
 
