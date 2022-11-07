@@ -106,12 +106,14 @@ router.get("/all", async function (req, res, next) {
 
         console.log(result)
 
+        throw Error("Simulated Error")
+
         res.json({
             success: true
         })
 
-    }  catch (err) {
-        console.log(err)
+    }  catch (error) {
+        console.log(error)
         res.json({
             success: false,
             error: err.toString(),
