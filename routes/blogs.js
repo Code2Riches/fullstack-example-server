@@ -1,4 +1,5 @@
 var express = require('express');
+const { uuid } = require("uuidv4")
 var router = express.Router();
 
 const { db } = require("../mongo");
@@ -89,5 +90,35 @@ router.get("/all", async function (req, res, next) {
         });
       }
   })
+
+  router.post("/create-one", async (req, res) => {
+    try {
+        const newBlog = {
+            ...req.body,
+            createdAt: new Date(),
+            lastModified: new Date(),
+            id: uuid()
+        }
+
+        console.log(newBlog)
+
+        const result = await db().collection("blogs").insertOne(newBlog)
+
+        console.log(result)
+
+        res.json({
+            success: true
+        })
+
+    }  catch (err) {
+        console.log(err)
+        res.json({
+            success: false,
+            error: err.toString(),
+        });
+    }   
+  })
+   
+  
   
   module.exports = router;
