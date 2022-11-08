@@ -102,7 +102,9 @@ router.get("/all", async function (req, res, next) {
 
         console.log(newBlog)
 
-        const result = await db().collection("blogs").insertOne(newBlog)
+        const result = await db()
+            .collection("blogs")
+            .insertOne(newBlog)
 
         console.log(result)
 
@@ -120,6 +122,43 @@ router.get("/all", async function (req, res, next) {
         });
     }   
   })
+
+  router.put('/update-one/:id', async function (req, res, next) {
+      try {
+        const id = req.params.id
+        const text = req.body.text;
+        const title = req.body.title;
+        const author = req.body.author;
+        const categories = req.body.categories;
+        const lastModified = new Date()
+
+        const blogPutResult = await db()
+            .collection("blogs")
+            .update(
+                { id: id }, 
+                { 
+                    $set: { 
+                        text: text, 
+                        title: title,
+                        author: author,
+                        categories: categories,
+                        lastModified: lastModified, 
+                    },
+                }
+            );
+
+        res.json({
+            success: true,
+            putResult: blogPutResult
+        });
+      } catch (err) {
+        console.log(err)
+        res.json({
+            success: false,
+            error: err.toString(),
+        });
+    }
+})
    
   
   
